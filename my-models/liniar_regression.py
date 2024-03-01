@@ -16,9 +16,12 @@ class MyLineReg():
                f"n_iter={self.n_iter}, " \
                f"learning_rate={self.learning_rate}, "
 
-    def fit(self, X: pd.DataFrame, y: pd.Series, verbose=False) -> None:
+    def change_X(self, X: pd.DataFrame):
         X = X.to_numpy()
-        X = np.hstack((np.ones((X.shape[0], 1)), X))
+        return np.hstack((np.ones((X.shape[0], 1)), X))
+
+    def fit(self, X: pd.DataFrame, y: pd.Series, verbose=False) -> None:
+        X = self.change_X(X)
         y = y.to_numpy()
         self.weight = np.full(X.shape[1], 1.0)
 
@@ -35,9 +38,14 @@ class MyLineReg():
     def get_coef(self):
         return self.weight[1:]
 
+    def predict(self, X: pd.DataFrame):
+        X = self.change_X(X)
+        return X @ self.weight
+
 
 model = MyLineReg(50, 0.1)
 print(model)
 
-model.fit(pd.DataFrame(X), pd.Series(y), 10)
+model.fit(X, y, 10)
+print(model.predict(X))
 print(model.get_coef())
