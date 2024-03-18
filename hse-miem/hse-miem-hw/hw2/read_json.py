@@ -17,7 +17,7 @@ for file_name in glob.glob('Lyrics_*.json'):
             artist = song['artist']
             lyrics = song['lyrics']
 
-            lyrics = ''.join(lyrics.split("\n")[2:])
+            lyrics = ' '.join(lyrics.split("\n")[2:])
             lyrics = lyrics.lower()
             lyrics = re.sub("\[.*?\]", "", lyrics)
             for ch in lyrics:
